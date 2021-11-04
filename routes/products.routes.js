@@ -6,9 +6,7 @@ const Product = require("../models/Product.model")
 router.post("/create", (req, res, next) => {
     const { name, image, description, price, category, stock, addedBy} = req.body;
 
-    if (!name || !image || !description|| !price || !category || !stock || !addedBy) {
-        res.redirect("/product/create");
-    } else {
+
         Product.create({
           name,
           image,
@@ -28,7 +26,7 @@ router.post("/create", (req, res, next) => {
             next(err);
           });
     }
-})
+)
 
 // DISPLAY ALL PRODUCTS
 router.get("/all", (req, res, next) => {
