@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Product = require("../models/Product.model");
 
-// CREATING A PRODUCT
+// CREATE A PRODUCT
 router.post("/create", (req, res, next) => {
   const { name, image, description, price, category, stock, addedBy } =
     req.body;
@@ -28,9 +28,35 @@ router.post("/create", (req, res, next) => {
 
 // DISPLAY ALL PRODUCTS
 router.get("/all", (req, res, next) => {
-  Product.find({}, { title: 1 })
+  Product.find()
     .then((data) => res.json(data))
     .catch((err) => next(err));
+});
+
+// EDIT/PATCH PRODUCT
+router.patch("/:id", (req, res, next) => {
+  const { name, image, description, price, category, stock } = req.body;
+  Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      name,
+      image,
+      description,
+      price,
+      category,
+      stock,
+    },
+    { new: true }
+  )
+    .then((data) => res.json(data))
+    .catch((err) => next(err));
+});
+
+// DELETE A SPECIFIC PRODUCT
+router.delete("/:id", (req, res, next) => {
+  Product.findByIdAndDelete(req.params.id)
+  .then((data) => res.json("Successfully deleted" + data._id))
+  .catch((err) => next(err))
 });
 
 module.exports = router;
