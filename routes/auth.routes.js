@@ -39,7 +39,7 @@ router.post("/signup", (req, res, next) => {
         .then((salt) => bcrypt.hash(password, salt))
         .then((hashedPassword) => {
           //*Here we create the user in the DB
-          User.create({ username, email, city, password: hashedPassword })
+           User.create({ username, email, city, password: hashedPassword })
             .then((newUser) => {
               req.session.user = user;
               res.status(200).json(newUser);

@@ -1,13 +1,14 @@
-const { Schema, Model } = require("mongoose");
+const { Schema, model } = require("mongoose");
 /* const { schema } = require("./User.model");
  */
+
 const productSchema = new Schema(
   {
-    title: String,
+    name: String,
     image: String,
     description: String,
     price: Number,
-    categories: {
+    category: {
       type: String,
       enum: ["Tech", "Gaming"],
     },
