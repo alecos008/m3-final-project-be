@@ -43,7 +43,7 @@ router.post("/signup", (req, res, next) => {
           //*Here we create the user in the DB
           User.create({ username, email, city, password: hashedPassword })
             .then((newUser) => {
-              /*           req.session.user = user; */
+              req.session.user = user;
               res.status(200).json(newUser);
             })
             .catch((err) =>
@@ -60,6 +60,41 @@ router.post("/signup", (req, res, next) => {
         );
     })
     .catch((err) => res.status(500).json({ err }));
+});
+
+router.post("/login", (req, res, next) => {
+  const { email, password } = req.body;
+
+  //* Here we check if the user filled both inputs
+  if (!email || !password) {
+    return res.status(500).json({
+      errorMessage: `Please fill all the fields. You are missing the ${
+        username ? "password" : "username"
+      }`,
+    });
+  }
+
+  User.findOne({ email }).then((user) => {
+    //Here we check if user exists in DB
+    if (!user) {
+      return res
+        .status(500)
+        .json({ errorMessage: "Email not registered! Please signup." });
+    }
+
+    //Here we check if password matches
+    bcrypt
+      .compare(password, user.password)
+      .then((passwordMatch) => {
+        if (!passwordMatch) {
+          return res.status(500).json({ errorMessage: "Wrong password mate" });
+        }
+
+        req.session.user = user;
+        return res.status(200).json(user);
+      })
+      .catch((err) => next(err));
+  });
 });
 
 module.exports = router;
