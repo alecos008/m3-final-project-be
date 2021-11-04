@@ -5,6 +5,8 @@ const bcrypt = require("bcryptjs");
 router.post("/signup", (req, res, next) => {
   const { username, password, email, city } = req.body;
 
+  console.log(username);
+
   //* Here we test if the user filled all the inputs
   if (!username || !password || !email || !city) {
     return res.status(400).json({ errorMessage: "Please fill all the fields" });
@@ -39,9 +41,9 @@ router.post("/signup", (req, res, next) => {
         .then((salt) => bcrypt.hash(password, salt))
         .then((hashedPassword) => {
           //*Here we create the user in the DB
-           User.create({ username, email, city, password: hashedPassword })
+          User.create({ username, email, city, password: hashedPassword })
             .then((newUser) => {
-              req.session.user = user;
+              /*           req.session.user = user; */
               res.status(200).json(newUser);
             })
             .catch((err) =>
@@ -50,8 +52,14 @@ router.post("/signup", (req, res, next) => {
                   "Something went wrong while creating your user. Please try again",
               })
             );
-        });
-    });
+        })
+        .catch((err) =>
+          res.status(500).json({
+            errorMessage: "Somethgin whent wrong while encrypting password",
+          })
+        );
+    })
+    .catch((err) => res.status(500).json({ err }));
 });
 
 module.exports = router;
