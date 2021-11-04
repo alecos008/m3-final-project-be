@@ -28,4 +28,18 @@ router.get("/all", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+//Display a specific element with all the info
+router.get("/:id", (req, res, next) => {
+  Thread.findById(req.params.id)
+    .then((data) => res.json(data))
+    .catch((err) => next(err));
+});
+
+//Delete a specific element
+router.delete("/:id", (req, res, next) => {
+  Thread.findByIdAndDelete(req.params.id)
+    .then((data) => res.json("All good!" + data._id))
+    .catch((err) => next(err));
+});
+
 module.exports = router;
