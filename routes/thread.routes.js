@@ -1,7 +1,8 @@
 const router = require("express").Router();
+const { isThreadOwner } = require("../middlewares/authorization");
 const Thread = require("../models/Thread.model");
 
-//create a thread element
+//create a comment element
 router.post("/create", (req, res, next) => {
   const { title, description, categories, createdBy } = req.body;
   Thread.create({
@@ -28,17 +29,36 @@ router.get("/all", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-//Display a specific element with all the info
+//Display a specific thread element with all the info
 router.get("/:id", (req, res, next) => {
   Thread.findById(req.params.id)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 });
 
-//Delete a specific element
+//Delete a specific thread element
 router.delete("/:id", (req, res, next) => {
   Thread.findByIdAndDelete(req.params.id)
     .then((data) => res.json("All good!" + data._id))
+    .catch((err) => next(err));
+});
+
+router.patch("/:id", (req, res, next) => {
+  const { title, description, categories, createdBy, isActive, edit } =
+    req.body;
+  Thread.findByIdAndUpdate(
+    req.params.id,
+    {
+      title,
+      description,
+      categories,
+      createdBy,
+      isActive,
+      edit,
+    },
+    { new: true }
+  )
+    .then((data) => res.json(data))
     .catch((err) => next(err));
 });
 
