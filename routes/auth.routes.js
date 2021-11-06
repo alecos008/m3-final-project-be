@@ -40,9 +40,9 @@ router.post("/signup", (req, res, next) => {
         .then((hashedPassword) => {
           //*Here we create the user in the DB
           User.create({ username, email, city, password: hashedPassword })
-            .then((newUser) => {
-              req.session.user = newUser;
-              res.status(200).json(newUser);
+            .then((user) => {
+              req.session.user = user;
+              res.status(200).json(user);
             })
             .catch((err) => {
               res.json({
@@ -93,6 +93,24 @@ router.post("/login", (req, res, next) => {
       })
       .catch((err) => next(err));
   });
+});
+
+router.post("/logout", (req, res, next) => {
+  req.session.destroy((error) => {
+    if (error) {
+      return res.status(500).json({
+        errorMessage: `Something went wrong with the logout: ${error.message}`,
+      });
+    }
+    res.json({ successMessage: "Logged out!" });
+  });
+});
+
+router.get("/loggedin", (req, res, next) => {
+  if (req.session.user) {
+    return res.json({ user: req.session.user });
+  }
+  res.status(403).json({ errorMessage: "You're not authenticated." });
 });
 
 module.exports = router;
