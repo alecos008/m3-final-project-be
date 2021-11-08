@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Product = require("../models/Product.model");
 const Thread = require("../models/Thread.model");
 
 module.exports = {
@@ -11,13 +12,35 @@ module.exports = {
   },
 
   isThreadOwner: (req, res, next) => {
-    Thread.find({ createdBy }).then((response) => {
-      console.log(response);
+    const { id } = req.params;
+    Thread.findById(id).then((singleThread) => {
+      if (req.session.user._id === singleThread.createdBy) {
+        next();
+      } else {
+        res.status(403).json({ message: "You are not authorized" });
+      }
     });
-    // if (req.session.user._id === data.createdBy) {
-    //   next();
-    // } else {
-    //   res.status(403).json({ message: "You are not authorized" });
-    // }
+  },
+
+  isCommentOwner: (req, res, next) => {
+    const { id } = req.params;
+    Comment.findById(id).then((singleComment) => {
+      if (req.session.user._id === singleComment.userId) {
+        next();
+      } else {
+        res.status(403).json({ message: "You are not authorized" });
+      }
+    });
+  },
+
+  isProductOwner: (req, res, next) => {
+    const { id } = req.params;
+    Product.findById(id).then((singleProduct) => {
+      if (req.session.user._id === singleProduct.addedBy) {
+        next();
+      } else {
+        res.status(403).json({ message: "You are not authorized" });
+      }
+    });
   },
 };

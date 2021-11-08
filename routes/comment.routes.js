@@ -20,7 +20,6 @@ router.post("/create", (req, res, next) => {
     );
 });
 
-//destructor thred ID
 router.get("/all/:threadId", (req, res, next) => {
   const { threadId } = req.params.id;
   Comment.find({ threadId: threadId }, { description: 1 })
