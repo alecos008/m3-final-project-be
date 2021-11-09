@@ -29,6 +29,20 @@ router.get("/all", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+//Display the threads of one user
+router.get("/my-threads", (req, res, next) => {
+  Thread.find({ createdBy: req.session.user._id })
+    .then((threads) => {
+      console.log(`Here is your thread ${threads}`);
+      res.status(200).json({ threads });
+    })
+    .catch((err) =>
+      res.json({
+        errorMessage: "Something went wrong while posting your thread!",
+      })
+    );
+});
+
 //Display a specific thread element with all the info
 router.get("/:id", (req, res, next) => {
   Thread.findById(req.params.id)
