@@ -32,7 +32,6 @@ router.get("/all", (req, res, next) => {
 router.get("/my-threads", (req, res, next) => {
   Thread.find({ createdBy: req.session.user._id })
     .then((threads) => {
-      console.log(`Here is your thread ${threads}`);
       res.status(200).json({ threads });
     })
     .catch((err) =>

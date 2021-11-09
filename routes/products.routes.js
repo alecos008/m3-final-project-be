@@ -4,17 +4,16 @@ const Product = require("../models/Product.model");
 
 // CREATE A PRODUCT
 router.post("/create", isLoggedIn, (req, res, next) => {
-  const { name, description, price, category, stock } =
-    req.body;
+  const { name, description, price, category, stock } = req.body;
 
   Product.create({
     name,
-  
+
     description,
     price,
     category,
     stock,
-    addedBy: req.session.user._id
+    addedBy: req.session.user._id,
   })
     .then((product) => {
       console.log(`Here is the new product: ${product}`);
@@ -30,13 +29,6 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 // DISPLAY ALL PRODUCTS
 router.get("/all", (req, res, next) => {
   Product.find()
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
-});
-
-// DISPLAY SINGLE PRODUCT BY ID
-router.get("/:id", (req, res, next) => {
-  Product.findById(req.params.id)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 });
@@ -63,8 +55,23 @@ router.patch("/:id", (req, res, next) => {
 // DELETE A SPECIFIC PRODUCT
 router.delete("/:id", (req, res, next) => {
   Product.findByIdAndDelete(req.params.id)
-  .then((data) => res.json("Successfully deleted" + data._id))
-  .catch((err) => next(err))
+    .then((data) => res.json("Successfully deleted" + data._id))
+    .catch((err) => next(err));
 });
 
+router.get("/my-products", (req, res, next) => {
+  Product.find({ addedBy: req.session.user._id })
+    .then((products) => {
+      console.log(`Here are your products, ${products}`);
+      res.status(200).json({ products });
+    })
+    .catch((err) => res.json({ err }));
+});
+
+// DISPLAY SINGLE PRODUCT BY ID
+router.get("/:id", (req, res, next) => {
+  Product.findById(req.params.id)
+    .then((data) => res.json(data))
+    .catch((err) => next(err));
+});
 module.exports = router;
