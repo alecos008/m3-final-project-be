@@ -12,7 +12,6 @@ router.post("/create", (req, res, next) => {
     createdBy,
   })
     .then((data) => {
-      console.log(`Here is your thread ${data}`);
       res.status(200).json({ data });
     })
     .catch((err) =>
