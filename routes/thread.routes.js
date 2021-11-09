@@ -1,17 +1,18 @@
 const router = require("express").Router();
-const { isThreadOwner } = require("../middlewares/authorization");
+const { isLoggedIn } = require("../middlewares/authorization");
 const Thread = require("../models/Thread.model");
 
 //create a comment element
-router.post("/create", (req, res, next) => {
-  const { title, description, categories, createdBy } = req.body;
+router.post("/create", isLoggedIn, (req, res, next) => {
+  const { title, description, categories } = req.body;
   Thread.create({
     title,
     description,
     categories,
-    createdBy,
+    createdBy: req.session.user._id,
   })
     .then((data) => {
+      console.log(`Here is your thread ${data}`);
       res.status(200).json({ data });
     })
     .catch((err) =>
