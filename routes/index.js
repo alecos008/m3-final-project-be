@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const fileUploader = require("../config/cloudinary.config")
 const authRoutes = require("./auth.routes");
 const productsRoutes = require("./products.routes");
 const threadRoutes = require("./thread.routes");
@@ -19,4 +20,12 @@ router.use("/comment", commentRoutes);
 
 router.use("/profile", profileRoutes);
 
+//CLOUDINARY ROUTE
+router.post('/upload', fileUploader.single('image') ,(req, res, next) => {
+  if(!req.file){
+    next(new Error("No file upload!"))
+    return;
+  }
+  res.json({imagePath: req.file.path})
+})
 module.exports = router;

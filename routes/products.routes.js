@@ -4,11 +4,11 @@ const Product = require("../models/Product.model");
 
 // CREATE A PRODUCT
 router.post("/create", isLoggedIn, (req, res, next) => {
-  const { name, description, price, category, stock } = req.body;
+  const { name, description, image, price, category, stock } = req.body;
 
   Product.create({
     name,
-
+    image,
     description,
     price,
     category,
