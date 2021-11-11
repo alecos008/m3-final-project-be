@@ -4,11 +4,11 @@ const Thread = require("../models/Thread.model");
 
 //create a comment element
 router.post("/create", isLoggedIn, (req, res, next) => {
-  const { title, description, categories } = req.body;
+  const { title, description, category } = req.body;
   Thread.create({
     title,
     description,
-    categories,
+    category,
     createdBy: req.session.user._id,
   })
     .then((data) => {
@@ -24,7 +24,7 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 
 //Display the list of all threads
 router.get("/all", (req, res, next) => {
-  Thread.find({}, { title: 1 })
+  Thread.find()
     .then((data) => res.json(data))
     .catch((err) => next(err));
 });

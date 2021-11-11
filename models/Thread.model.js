@@ -5,9 +5,9 @@ const threadSchema = new Schema(
   {
     title: String,
     description: String,
-    categories: {
+    category: {
       type: String,
-      enmu: ["Tech", "Gaming"],
+      enum: ["Tech", "Gaming"],
     },
     createdBy: {
       type: Schema.Types.ObjectId,
