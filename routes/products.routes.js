@@ -29,7 +29,7 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 // DISPLAY ALL PRODUCTS
 router.get("/all", (req, res, next) => {
   Product.find()
-    .then((data) => res.json(data))
+    .then((products) => res.json(products))
     .catch((err) => next(err));
 });
 
