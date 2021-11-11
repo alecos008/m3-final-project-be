@@ -3,10 +3,10 @@ const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 
 router.post("/signup", (req, res, next) => {
-  const { username, password, email, city } = req.body;
+  const { username, password, email, city, profilePic } = req.body;
 
   //* Here we test if the user filled all the inputs
-  if (!username || !password || !email || !city) {
+  if (!username || !password || !email || !city || !profilePic) {
     return res.status(400).json({ errorMessage: "Please fill all the fields" });
   }
 
@@ -39,7 +39,7 @@ router.post("/signup", (req, res, next) => {
         .then((salt) => bcrypt.hash(password, salt))
         .then((hashedPassword) => {
           //*Here we create the user in the DB
-          User.create({ username, email, city, password: hashedPassword })
+          User.create({ username, profilePic, email, city, password: hashedPassword })
             .then((user) => {
               req.session.user = user;
               res.status(200).json(user);
