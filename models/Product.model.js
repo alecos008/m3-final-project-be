@@ -10,8 +10,20 @@ const productSchema = new Schema(
     price: Number,
     category: {
       type: String,
-      enum: ["Tech", "Gaming"],
+      enum: [
+        "Mobile, Computers & Devices",
+        "Consoles & Videogames",
+        "Fashion",
+        "Sports & Outdoors",
+        "Home & Garden",
+        "Health & Beauty",
+        "Cinema, Books & Music",
+        "Vehicles & Motor",
+        "Art & Collectibles",
+        "Toys & Kids",
+      ],
     },
+
     stock: {
       type: Number,
       min: 1,

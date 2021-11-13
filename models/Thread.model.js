@@ -7,7 +7,18 @@ const threadSchema = new Schema(
     description: String,
     category: {
       type: String,
-      enum: ["Tech", "Gaming"],
+      enum: [
+        "Mobile, Computers & Devices",
+        "Consoles & Videogames",
+        "Fashion",
+        "Sports & Outdoors",
+        "Home & Garden",
+        "Health & Beauty",
+        "Cinema, Books & Music",
+        "Vehicles & Motor",
+        "Art & Collectibles",
+        "Toys & Kids",
+      ],
     },
     createdBy: {
       type: Schema.Types.ObjectId,
