@@ -39,7 +39,13 @@ router.post("/signup", (req, res, next) => {
         .then((salt) => bcrypt.hash(password, salt))
         .then((hashedPassword) => {
           //*Here we create the user in the DB
-          User.create({ username, profilePic, email, city, password: hashedPassword })
+          User.create({
+            username,
+            profilePic,
+            email,
+            city,
+            password: hashedPassword,
+          })
             .then((user) => {
               req.session.user = user;
               res.status(200).json(user);
@@ -114,3 +120,5 @@ router.get("/loggedin", (req, res, next) => {
 });
 
 module.exports = router;
+
+//:)
