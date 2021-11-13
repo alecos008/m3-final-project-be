@@ -23,5 +23,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
+  },
+  "engines": {
+    "node": "x.x.x",
+    "npm": "x.x.x"
   }
 }
