@@ -45,7 +45,9 @@ router.get("/my-threads", (req, res, next) => {
 //Display a specific thread element with all the info
 router.get("/:id", (req, res, next) => {
   Thread.findById(req.params.id)
-    .then((data) => res.json(data))
+    .then((data) => {
+      res.json(data);
+    })
     .catch((err) => next(err));
 });
 
@@ -57,17 +59,17 @@ router.delete("/:id", (req, res, next) => {
 });
 
 router.patch("/:id", (req, res, next) => {
-  const { title, description, categories, createdBy, isActive, edit } =
-    req.body;
+  const { title, description, categories, isActive } = req.body;
+
   Thread.findByIdAndUpdate(
     req.params.id,
     {
       title,
       description,
       categories,
-      createdBy,
+      createdBy: req.session.user._id,
       isActive,
-      edit,
+      edit: true,
     },
     { new: true }
   )

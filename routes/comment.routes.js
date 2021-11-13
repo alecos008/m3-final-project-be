@@ -2,11 +2,12 @@ const router = require("express").Router();
 const Comment = require("../models/Comment.model");
 
 //create a comment element
-router.post("/create", (req, res, next) => {
-  const { threadId, userId, description } = req.body;
+router.post("/create/:threadId", (req, res, next) => {
+  const { description } = req.body;
+  const { threadId } = req.params;
   Comment.create({
     threadId,
-    userId,
+    userId: req.session.user._id,
     description,
   })
     .then((data) => {
@@ -21,9 +22,12 @@ router.post("/create", (req, res, next) => {
 });
 
 router.get("/all/:threadId", (req, res, next) => {
-  const { threadId } = req.params.id;
+  const { threadId } = req.params;
   Comment.find({ threadId: threadId }, { description: 1 })
-    .then((data) => res.json(data))
+    .then((data) => {
+      console.log(data);
+      res.json(data);
+    })
     .catch((err) => next(err));
 });
 
