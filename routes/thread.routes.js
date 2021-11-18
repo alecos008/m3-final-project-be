@@ -55,7 +55,10 @@ router.get("/:id", (req, res, next) => {
 //Delete a specific thread element
 router.delete("/:id", (req, res, next) => {
   Thread.findByIdAndDelete(req.params.id)
-    .then((data) => res.json("All good!" + data._id))
+    .then((data) => {
+      console.log(data);
+      res.json("All good!" + data._id);
+    })
     .catch((err) => next(err));
 });
 

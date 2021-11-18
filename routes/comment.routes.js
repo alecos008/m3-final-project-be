@@ -25,7 +25,6 @@ router.get("/all/:threadId", (req, res, next) => {
   const { threadId } = req.params;
   Comment.find({ threadId: threadId }, { description: 1 })
     .then((data) => {
-      console.log(data);
       res.json(data);
     })
     .catch((err) => next(err));
