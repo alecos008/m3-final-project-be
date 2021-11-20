@@ -23,7 +23,9 @@ router.post("/create/:threadId", (req, res, next) => {
 
 router.get("/all/:threadId", (req, res, next) => {
   const { threadId } = req.params;
-  Comment.find({ threadId: threadId }, { description: 1 })
+  Comment.find({ threadId: threadId }, { description: 1, userId: 1 })
+    .populate("userId")
+    //use map to send correct user info to front end
     .then((data) => {
       res.json(data);
     })
