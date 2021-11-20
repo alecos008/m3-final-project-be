@@ -14,6 +14,7 @@ module.exports = {
   isThreadOwner: (req, res, next) => {
     const { id } = req.params;
     Thread.findById(id).then((singleThread) => {
+      console.log(singleThread, req.session.user._id);
       if (req.session.user._id === singleThread.createdBy) {
         next();
       } else {

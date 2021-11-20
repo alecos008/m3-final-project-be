@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { isLoggedIn } = require("../middlewares/authorization");
+const { isThreadOwner } = require("../middlewares/authorization");
 const Thread = require("../models/Thread.model");
 
 //create a comment element
@@ -54,27 +55,41 @@ router.get("/:id", (req, res, next) => {
 //Delete a specific thread element
 router.delete("/:id", (req, res, next) => {
   Thread.findByIdAndDelete(req.params.id)
-    .then((data) => res.json("All good!" + data._id))
+    .then((data) => {
+      console.log(data);
+      res.json("All good!" + data._id);
+    })
     .catch((err) => next(err));
 });
 
 router.patch("/:id", (req, res, next) => {
   const { title, description, categories, isActive } = req.body;
+  const { id } = req.params;
 
-  Thread.findByIdAndUpdate(
-    req.params.id,
-    {
-      title,
-      description,
-      categories,
-      createdBy: req.session.user._id,
-      isActive,
-      edit: true,
-    },
-    { new: true }
-  )
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
+  Thread.findById(id).then((singleThread) => {
+    console.log(singleThread, req.session.user._id);
+    if (req.session.user._id.toString() === singleThread.createdBy.toString()) {
+      Thread.findByIdAndUpdate(
+        req.params.id,
+        {
+          title,
+          description,
+          categories,
+          createdBy: req.session.user._id,
+          isActive,
+          edit: true,
+        },
+        { new: true }
+      )
+        .then((data) => {
+          console.log(data);
+          res.json(data);
+        })
+        .catch((err) => next(err));
+    } else {
+      res.status(403).json({ message: "You are not authorized" });
+    }
+  });
 });
 
 module.exports = router;
