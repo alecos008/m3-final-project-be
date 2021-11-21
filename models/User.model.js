@@ -7,7 +7,10 @@ const userSchema = new Schema(
       type: String,
     },
     password: String,
-    profilePic: String,
+    profilePic: {
+      type: String,
+      default: "https://bootdey.com/img/Content/avatar/avatar7.png",
+    },
     email: {
       type: String,
       unique: true,
