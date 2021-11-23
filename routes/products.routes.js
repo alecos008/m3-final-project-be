@@ -16,7 +16,7 @@ router.post("/create", isLoggedIn, (req, res, next) => {
     addedBy: req.session.user._id,
   })
     .then((product) => {
-      console.log(`Here is the new product: ${product}`);
+      /*  console.log(`Here is the new product: ${product}`); */
 
       // under here we decide where we want to redirect the user after listing a product
       return res.status(200).json({ product });
@@ -62,7 +62,7 @@ router.delete("/:id", (req, res, next) => {
 router.get("/my-products", (req, res, next) => {
   Product.find({ addedBy: req.session.user._id })
     .then((products) => {
-      console.log(`Here are your products, ${products}`);
+      /* console.log(`Here are your products, ${products}`); */
       res.status(200).json({ products });
     })
     .catch((err) => res.json({ err }));

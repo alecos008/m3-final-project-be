@@ -12,4 +12,15 @@ router.get("/", isLoggedIn, (req, res, next) => {
     .catch((err) => res.json({ err }));
 });
 
+router.patch("/edit-pic", (req, res, next) => {
+  const { profilePic } = req.body;
+  User.findByIdAndUpdate(req.session.user._id, { profilePic }, { new: true })
+    .then((editedUser) => {
+      res.status(200).json({ editedUser });
+    })
+    .catch((err) => {
+      res.status(500).json({ err });
+    });
+});
+
 module.exports = router;
