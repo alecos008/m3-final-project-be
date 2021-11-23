@@ -1,8 +1,10 @@
 const router = require("express").Router();
+const { isLoggedIn } = require("../middlewares/authorization");
+const { isCommentOwner } = require("../middlewares/authorization");
 const Comment = require("../models/Comment.model");
 
 //create a comment element
-router.post("/create/:threadId", (req, res, next) => {
+router.post("/create/:threadId", isLoggedIn, (req, res, next) => {
   const { description } = req.body;
   const { threadId } = req.params;
   Comment.create({
@@ -33,7 +35,7 @@ router.get("/all/:threadId", (req, res, next) => {
 });
 
 //Delete a specific element
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", isCommentOwner, (req, res, next) => {
   Comment.findByIdAndDelete(req.params.id)
     .then((data) => res.json("All good!" + data._id))
     .catch((err) => next(err));
