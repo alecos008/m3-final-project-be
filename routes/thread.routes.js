@@ -67,7 +67,6 @@ router.patch("/:id", (req, res, next) => {
   const { id } = req.params;
 
   Thread.findById(id).then((singleThread) => {
-    console.log(singleThread, req.session.user._id);
     if (req.session.user._id.toString() === singleThread.createdBy.toString()) {
       Thread.findByIdAndUpdate(
         req.params.id,
