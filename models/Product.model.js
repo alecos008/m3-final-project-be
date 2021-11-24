@@ -35,7 +35,7 @@ const productSchema = new Schema(
   },
 
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 

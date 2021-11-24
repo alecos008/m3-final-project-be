@@ -35,7 +35,7 @@ const threadSchema = new Schema(
   },
 
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 

@@ -26,6 +26,7 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 //Display the list of all threads
 router.get("/all", (req, res, next) => {
   Thread.find()
+    .populate("createdBy")
     .then((data) => res.json(data))
     .catch((err) => next(err));
 });

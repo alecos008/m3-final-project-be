@@ -41,7 +41,7 @@ router.delete("/:id", isCommentOwner, (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.patch("/:id", (req, res, next) => {
+router.patch("/:id", isCommentOwner, (req, res, next) => {
   const { description } = req.body;
   Comment.findByIdAndUpdate(
     req.params.id,
