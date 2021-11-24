@@ -71,6 +71,7 @@ router.get("/my-products", (req, res, next) => {
 // DISPLAY SINGLE PRODUCT BY ID
 router.get("/:id", (req, res, next) => {
   Product.findById(req.params.id)
+    .populate("addedBy")
     .then((data) => res.json(data))
     .catch((err) => next(err));
 });
