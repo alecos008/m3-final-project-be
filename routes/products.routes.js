@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { isLoggedIn } = require("../middlewares/authorization");
+const { isLoggedIn, isProductOwner } = require("../middlewares/authorization");
 const Product = require("../models/Product.model");
 
 // CREATE A PRODUCT
@@ -34,7 +34,7 @@ router.get("/all", (req, res, next) => {
 });
 
 // EDIT/PATCH PRODUCT
-router.patch("/:id", (req, res, next) => {
+router.patch("/:id", isProductOwner, (req, res, next) => {
   const { name, image, description, price, category, stock } = req.body;
   Product.findByIdAndUpdate(
     req.params.id,
@@ -53,7 +53,7 @@ router.patch("/:id", (req, res, next) => {
 });
 
 // DELETE A SPECIFIC PRODUCT
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", isProductOwner, (req, res, next) => {
   Product.findByIdAndDelete(req.params.id)
     .then((data) => res.json("Successfully deleted" + data._id))
     .catch((err) => next(err));
