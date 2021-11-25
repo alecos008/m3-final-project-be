@@ -15,8 +15,10 @@ const transactionSchema = new Schema(
       ref: "Product",
     },
     price: Number,
-    sellerLocation: String,
-    buyerLocation: String,
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
