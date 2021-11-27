@@ -3,9 +3,7 @@ const Product = require("../models/Product.model");
 const Transaction = require("../models/Transaction.model");
 
 // This is a sample test API key.
-const stripe = require("stripe")(
-  "sk_test_51K0OW2JUf2t563ByXecoDCXqjr478pH76g76nTutvm186wCpZV75Z8wker5evZzW74V8WjWy1dWPIKWbmW4lUeGP00UgcZoM6J"
-);
+const stripe = require("stripe")(`${process.env.STRIPE_KEY}`);
 
 /* const calculateOrderAmount = (items) => {
   console.log(items);
@@ -26,6 +24,7 @@ router.post("/create-payment-intent", (req, res) => {
 
   Product.findById(items[0]._id)
     .then(async (product) => {
+      console.log(product);
       const paymentIntent = await stripe.paymentIntents.create({
         amount: product.price * 100,
         currency: "eur",
