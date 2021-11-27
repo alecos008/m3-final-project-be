@@ -4,7 +4,7 @@ const Transaction = require("../models/Transaction.model");
 
 // This is a sample test API key.
 const stripe = require("stripe")(
-  "sk_test_51JwX9tHrox29DJreX5C3H8x4L5YiK1cDBaskLA8UZPQ5lPlFCEha3M9B0fQ0hX1pSEUbcb9m6kykvZRoRRsesxtn00UpocWRcH"
+  "sk_test_51K0OW2JUf2t563ByXecoDCXqjr478pH76g76nTutvm186wCpZV75Z8wker5evZzW74V8WjWy1dWPIKWbmW4lUeGP00UgcZoM6J"
 );
 
 /* const calculateOrderAmount = (items) => {
